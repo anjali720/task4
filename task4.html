@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Infrastructure Showcase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .bytewave-icon {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+        }
+        
+        .cloudnova-icon {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+        }
+        
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .tech-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #e9ecef;
+        }
+        
+        .details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .details h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .details li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .details li:last-child {
+            border-bottom: none;
+        }
+        
+        .config-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .config-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .warning h3 {
+            margin-bottom: 10px;
+            color: #d63031;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .error h3 {
+            margin-bottom: 10px;
+            color: #d63031;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Terraform Infrastructure Showcase</h1>
+            <p>AWS Multi-Service Deployment for ByteWave Solutions & CloudNova Inc.</p>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon bytewave-icon">🌐</div>
+                    <div>
+                        <h2>ByteWave Solutions</h2>
+                        <p>Static Website Hosting on S3</p>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <span class="tech-tag">AWS S3</span>
+                    <span class="tech-tag">Static Website</span>
+                    <span class="tech-tag">Public Access</span>
+                    <span class="tech-tag">Terraform</span>
+                </div>
+                
+                <div class="details">
+                    <h3>Configuration Details</h3>
+                    <ul>
+                        <li>
+                            <span>Bucket Name:</span>
+                            <span>bytewave-website-as</span>
+                        </li>
+                        <li>
+                            <span>Index Document:</span>
+                            <span>index.html</span>
+                        </li>
+                        <li>
+                            <span>Public Access:</span>
+                            <span class="status-badge status-success">Enabled</span>
+                        </li>
+                        <li>
+                            <span>Website Endpoint:</span>
+                            <span class="status-badge status-error">Failed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon cloudnova-icon">☁️</div>
+                    <div>
+                        <h2>CloudNova Inc.</h2>
+                        <p>Development Server on EC2</p>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <span class="tech-tag">AWS EC2</span>
+                    <span class="tech-tag">Amazon Linux 2</span>
+                    <span class="tech-tag">t2.micro</span>
+                    <span class="tech-tag">Python3 + Git</span>
+                </div>
+                
+                <div class="details">
+                    <h3>Server Configuration</h3>
+                    <ul>
+                        <li>
+                            <span>Instance Type:</span>
+                            <span>t2.micro</span>
+                        </li>
+                        <li>
+                            <span>AMI:</span>
+                            <span>ami-0c02fb55956c7d316</span>
+                        </li>
+                        <li>
+                            <span>Key Pair:</span>
+                            <span>anjali-key</span>
+                        </li>
+                        <li>
+                            <span>Status:</span>
+                            <span class="status-badge status-success">Created Successfully</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="config-section">
+            <h2>📋 Terraform Configuration Summary</h2>
+            <p>This infrastructure deployment creates a comprehensive setup for two companies with different hosting needs.</p>
+            
+            <div class="code-block">
+# Provider Configuration
+provider "aws" {
+  region     = "us-east-1"
+  access_key = var.access_key
+  secret_key = var.secret_key
+}
+
+# Resources Created:
+# - S3 Bucket with Website Configuration
+# - Security Group for EC2 Access
+# - EC2 Instance with Auto-Setup Script
+            </div>
+        </div>
+        
+        <div class="warning">
+            <h3>⚠️ Deployment Warning</h3>
+            <p><strong>Deprecated Attribute:</strong> The <code>website_endpoint</code> attribute is deprecated. Consider using the <code>aws_s3_bucket_website_configuration</code> resource's website_endpoint attribute instead.</p>
+        </div>
+        
+        <div class="error">
+            <h3>❌ Deployment Error</h3>
+            <p><strong>S3 Bucket Creation Failed:</strong> The bucket name "bytewave-website-as" already exists. S3 bucket names must be globally unique across all AWS accounts.</p>
+            <p><strong>Solution:</strong> Use a more unique bucket name like "bytewave-website-as-2025-unique" or add a random suffix.</p>
+        </div>
+        
+        <div class="config-section">
+            <h2>🔧 Security Configuration</h2>
+            <div class="cards-container">
+                <div style="grid-column: 1 / -1;">
+                    <div class="details">
+                        <h3>Security Group Rules</h3>
+                        <ul>
+                            <li>
+                                <span>SSH Access (Port 22):</span>
+                                <span>0.0.0.0/0 (All IPs)</span>
+                            </li>
+                            <li>
+                                <span>Outbound Traffic:</span>
+                                <span>All protocols allowed</span>
+                            </li>
+                            <li>
+                                <span>S3 Bucket Policy:</span>
+                                <span>Public read access for website files</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🏗️ Infrastructure as Code with Terraform | AWS Multi-Service Deployment</p>
+            <p>Deployed in us-east-1 region with automated configuration management</p>
+        </div>
+    </div>
+</body>
+</html>
